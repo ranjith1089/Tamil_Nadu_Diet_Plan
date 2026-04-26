@@ -49,3 +49,17 @@ pnpm dev
 ## Step 1 Scope
 This commit includes the initial monorepo structure and project setup only.
 Implementation modules (auth, food APIs, tracking, frontend screens, mobile flows) will be added in subsequent steps.
+
+
+## Vercel Deployment (Web)
+If Vercel shows **"No Deployment Code"**, configure the project as a monorepo web deployment:
+
+1. Import the repository in Vercel.
+2. Set **Root Directory** to `apps/web`.
+3. Framework preset: **Next.js**.
+4. Build command: `pnpm build` (inside `apps/web`) or leave default.
+5. Install command: `pnpm install`.
+6. Add env variable in Vercel project settings:
+   - `NEXT_PUBLIC_API_BASE_URL`
+
+A root `vercel.json` is included to explicitly point Vercel to the Next.js app entry (`apps/web/package.json`) for deployments where root detection fails.
