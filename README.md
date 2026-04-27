@@ -79,3 +79,5 @@ If you want ready SQL queries for table verification and Tamil Nadu food seed da
 ```text
 apps/api/prisma/queries/railway_db_checks.sql
 ```
+
+The query file includes a **safe missing/present table check** so it can run even before tables are created.
