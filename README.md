@@ -63,3 +63,19 @@ If Vercel shows **"No Deployment Code"**, configure the project as a monorepo we
    - `NEXT_PUBLIC_API_BASE_URL`
 
 A root `vercel.json` is included to explicitly point Vercel to the Next.js app entry (`apps/web/package.json`) for deployments where root detection fails.
+
+## Railway Postgres: create tables + verify
+
+From `apps/api`, run Prisma migration deploy:
+
+```bash
+pnpm prisma:migrate:deploy
+```
+
+This creates application tables in Railway Postgres.
+
+If you want ready SQL queries for table verification and Tamil Nadu food seed data, use:
+
+```text
+apps/api/prisma/queries/railway_db_checks.sql
+```
