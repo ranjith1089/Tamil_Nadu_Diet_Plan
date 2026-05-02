@@ -31,19 +31,19 @@ infra/
 ## Quick Start
 
 ### 1) Prerequisites
-- Node.js 20+
-- pnpm 9+
+- Node.js 20.x
+- npm 10+
 - Flutter 3.22+
 - Docker (optional for local DB/Redis)
 
 ### 2) Install dependencies
 ```bash
-pnpm install
+npm install --legacy-peer-deps
 ```
 
 ### 3) Start scaffold dev commands
 ```bash
-pnpm dev
+npm run dev
 ```
 
 ## Step 1 Scope
@@ -52,25 +52,26 @@ Implementation modules (auth, food APIs, tracking, frontend screens, mobile flow
 
 
 ## Vercel Deployment (Web)
-Configure the Vercel project as a pnpm monorepo web deployment:
+Configure the Vercel project as an npm-workspaces monorepo web deployment:
 
 1. Import the repository in Vercel.
 2. Set **Root Directory** to `apps/web`.
 3. Framework preset: **Next.js** (auto-detected).
-4. Install command: `cd ../.. && pnpm install`.
-5. Build command: `pnpm --filter @tn/web build` (or leave blank to use the framework default).
-6. Output directory: leave blank (auto-detected).
-7. Add env variable in Vercel project settings:
+4. Install Command: `cd ../.. && npm install --legacy-peer-deps`.
+5. Build Command: leave blank (uses the framework default `next build`).
+6. Output Directory: leave blank (auto-detected).
+7. Node.js Version: **20.x**.
+8. Add env variable in Vercel project settings:
    - `NEXT_PUBLIC_API_BASE_URL`
 
-Do not commit a `vercel.json` at the repo root — the legacy `builds`/`@vercel/next` syntax disables auto-detection and breaks pnpm workspace resolution. Configure deployment via the dashboard settings above.
+Do not commit a `vercel.json` at the repo root — the legacy `builds`/`@vercel/next` syntax disables auto-detection and breaks workspace resolution. Configure deployment via the dashboard settings above.
 
 ## Railway Postgres: create tables + verify
 
 From `apps/api`, run Prisma migration deploy:
 
 ```bash
-pnpm prisma:migrate:deploy
+npm run prisma:migrate:deploy
 ```
 
 This creates application tables in Railway Postgres.
