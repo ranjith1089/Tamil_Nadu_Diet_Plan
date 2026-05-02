@@ -4,6 +4,9 @@
   "version": "0.1.0",
   "description": "Health & Fitness SaaS monorepo scaffold",
   "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "turbo run dev --parallel",
     "build": "turbo run build",
