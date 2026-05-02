@@ -52,17 +52,18 @@ Implementation modules (auth, food APIs, tracking, frontend screens, mobile flow
 
 
 ## Vercel Deployment (Web)
-If Vercel shows **"No Deployment Code"**, configure the project as a monorepo web deployment:
+Configure the Vercel project as a pnpm monorepo web deployment:
 
 1. Import the repository in Vercel.
 2. Set **Root Directory** to `apps/web`.
-3. Framework preset: **Next.js**.
-4. Build command: `pnpm build` (inside `apps/web`) or leave default.
-5. Install command: `pnpm install`.
-6. Add env variable in Vercel project settings:
+3. Framework preset: **Next.js** (auto-detected).
+4. Install command: `cd ../.. && pnpm install`.
+5. Build command: `pnpm --filter @tn/web build` (or leave blank to use the framework default).
+6. Output directory: leave blank (auto-detected).
+7. Add env variable in Vercel project settings:
    - `NEXT_PUBLIC_API_BASE_URL`
 
-A root `vercel.json` is included to explicitly point Vercel to the Next.js app entry (`apps/web/package.json`) for deployments where root detection fails.
+Do not commit a `vercel.json` at the repo root — the legacy `builds`/`@vercel/next` syntax disables auto-detection and breaks pnpm workspace resolution. Configure deployment via the dashboard settings above.
 
 ## Railway Postgres: create tables + verify
 
