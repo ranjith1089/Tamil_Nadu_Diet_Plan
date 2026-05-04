@@ -3,17 +3,15 @@
   "private": true,
   "version": "0.1.0",
   "description": "Health & Fitness SaaS monorepo scaffold",
-  "engines": {
-    "node": "20.x"
-  },
-  "workspaces": [
-    "apps/api",
-    "apps/web",
-    "packages/shared"
-  ],
+  "packageManager": "pnpm@9.12.0",
   "scripts": {
     "dev": "turbo run dev --parallel",
     "build": "turbo run build",
+    "build:api": "pnpm --filter @tn/api build",
+    "build:web": "pnpm --filter @tn/web build",
+    "start": "pnpm --filter @tn/api start",
+    "start:api": "pnpm --filter @tn/api start",
+    "start:web": "pnpm --filter @tn/web start",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "format": "prettier --write ."

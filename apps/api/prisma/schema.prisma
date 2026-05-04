@@ -1,0 +1,176 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum GoalType {
+  WEIGHT_LOSS
+  BELLY_FAT
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum ActivityLevel {
+  SEDENTARY
+  LIGHT
+  MODERATE
+  ACTIVE
+  VERY_ACTIVE
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
+}
+
+enum DeviceType {
+  GOOGLE_FIT
+  APPLE_HEALTH
+  SMARTWATCH
+  WEIGHT_SCALE
+}
+
+model User {
+  id            String         @id @default(cuid())
+  phone         String         @unique
+  age           Int?
+  gender        Gender?
+  heightCm      Float?
+  weightKg      Float?
+  activityLevel ActivityLevel?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  goal          UserGoal?
+  foodLogs      FoodLog[]
+  dailyLogs     DailyLog[]
+  weightLogs    WeightLog[]
+  deviceData    DeviceData[]
+  dietPlans     DietPlan[]
+}
+
+model UserGoal {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  goalType  GoalType
+  targetKg  Float?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model FoodItem {
+  id        String         @id
+  name      String         @unique
+  calories  Float
+  protein   Float
+  carbs     Float
+  fat       Float
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  foodLogs  FoodLog[]
+  dietItems DietPlanItem[]
+}
+
+model DietPlan {
+  id           String         @id @default(cuid())
+  userId       String
+  name         String
+  goalType     GoalType
+  isPredefined Boolean        @default(false)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items        DietPlanItem[]
+
+  @@index([userId])
+}
+
+model DietPlanItem {
+  id         String    @id @default(cuid())
+  dietPlanId String
+  foodItemId String?
+  mealType   MealType
+  quantity   Float?
+  customMeal String?
+  sortOrder  Int       @default(0)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  dietPlan   DietPlan  @relation(fields: [dietPlanId], references: [id], onDelete: Cascade)
+  foodItem   FoodItem? @relation(fields: [foodItemId], references: [id], onDelete: SetNull)
+
+  @@index([dietPlanId])
+}
+
+model FoodLog {
+  id         String   @id @default(cuid())
+  userId     String
+  foodItemId String
+  quantity   Float
+  calories   Float
+  protein    Float
+  carbs      Float
+  fat        Float
+  consumedAt DateTime
+  date       DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  foodItem   FoodItem @relation(fields: [foodItemId], references: [id], onDelete: Restrict)
+
+  @@index([userId, date])
+}
+
+model DailyLog {
+  id               String   @id @default(cuid())
+  userId           String
+  date             DateTime
+  caloriesConsumed Float    @default(0)
+  caloriesTarget   Float?
+  steps            Int      @default(0)
+  waterMl          Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@index([userId, date])
+}
+
+model WeightLog {
+  id        String   @id @default(cuid())
+  userId    String
+  date      DateTime
+  weightKg  Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+}
+
+model DeviceData {
+  id             String     @id @default(cuid())
+  userId         String
+  deviceType     DeviceType
+  source         String?
+  date           DateTime
+  steps          Int?
+  caloriesBurned Float?
+  weightKg       Float?
+  rawPayload     Json?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+}
