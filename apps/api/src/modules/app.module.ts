@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { IsInt, IsOptional, IsString, Min } from 'class-validator';
 import { AuthModule } from './auth/auth.module';
+import { FoodsModule } from './foods/foods.module';
 
 class EnvironmentVariables {
   @IsOptional()
@@ -52,6 +53,7 @@ class EnvironmentVariables {
       },
     }),
     AuthModule,
+    FoodsModule,
   ],
   controllers: [],
   providers: [],

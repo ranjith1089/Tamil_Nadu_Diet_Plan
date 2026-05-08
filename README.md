@@ -90,6 +90,11 @@ Step 3 backend deliverables now include:
 - Auth endpoints: `POST /auth/login` and `POST /auth/verify-otp`
 - Global DTO validation pipe in API bootstrap
 
+Step 4 backend deliverables now include:
+- Food endpoints: `GET /foods`, `GET /foods?search=`, and `GET /foods/:id`
+- Repeatable Tamil Nadu food seed script: `pnpm prisma:seed`
+- Reusable Prisma database module for API repositories
+
 ## Deployment Troubleshooting (Railway + Vercel)
 
 ### Railway build error: `TS5095 Option 'bundler'...`

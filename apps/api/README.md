@@ -33,3 +33,26 @@ Implemented endpoints:
 Notes:
 - OTP is currently generated and returned by API response for scaffold/testing.
 - Production SMS provider integration will replace this in later steps.
+
+## Step 4 (Food Database + APIs)
+
+Implemented endpoints:
+- `GET /foods` (list all food items)
+- `GET /foods?search=idli` (search food items by name)
+- `GET /foods/:id` (get one food item by id)
+
+Seed Tamil Nadu food catalog:
+
+```bash
+pnpm prisma:seed
+```
+
+Initial seeded foods:
+- idli
+- dosa
+- sambar
+- rice
+- pongal
+- chapati
+- chicken
+- fish
