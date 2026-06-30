@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { IsInt, IsOptional, IsString, Min } from 'class-validator';
+import { IsBoolean, IsInt, IsOptional, IsString, Min, validateSync } from 'class-validator';
 import { AuthModule } from './auth/auth.module';
 import { FoodsModule } from './foods/foods.module';
 
@@ -31,6 +31,22 @@ class EnvironmentVariables {
   @IsInt()
   @Min(60)
   OTP_TTL_SECONDS?: number;
+
+  @IsOptional()
+  @IsBoolean()
+  OTP_DEBUG_RESPONSE?: boolean;
+}
+
+function parseBoolean(value: unknown, defaultValue = false) {
+  if (value === undefined || value === null || value === '') {
+    return defaultValue;
+  }
+
+  if (typeof value === 'boolean') {
+    return value;
+  }
+
+  return ['1', 'true', 'yes', 'on'].includes(String(value).toLowerCase());
 }
 
 @Module({
@@ -48,6 +64,15 @@ class EnvironmentVariables {
         validated.OTP_TTL_SECONDS = config.OTP_TTL_SECONDS
           ? Number(config.OTP_TTL_SECONDS)
           : 300;
+        validated.OTP_DEBUG_RESPONSE = parseBoolean(config.OTP_DEBUG_RESPONSE);
+
+        const errors = validateSync(validated, {
+          skipMissingProperties: false,
+        });
+
+        if (errors.length > 0) {
+          throw new Error(errors.toString());
+        }
 
         return validated;
       },

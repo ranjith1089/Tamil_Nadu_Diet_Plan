@@ -31,8 +31,10 @@ Implemented endpoints:
 - `POST /auth/verify-otp` (verify OTP and issue JWT access token)
 
 Notes:
-- OTP is currently generated and returned by API response for scaffold/testing.
-- Production SMS provider integration will replace this in later steps.
+- OTP is stored in Redis using `REDIS_URL`.
+- In local development only, the API falls back to in-memory OTP storage if Redis is unavailable.
+- OTP values are not returned by default. Set `OTP_DEBUG_RESPONSE=true` only for local testing.
+- Production SMS provider integration should deliver the generated OTP.
 
 ## Step 4 (Food Database + APIs)
 

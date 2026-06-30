@@ -10,7 +10,7 @@
     "allowSyntheticDefaultImports": true,
     "outDir": "./dist",
     "incremental": true,
-    "types": ["node"]
+    "types": ["node", "jest"]
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist"]

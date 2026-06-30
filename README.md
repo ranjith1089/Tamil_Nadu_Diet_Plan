@@ -46,9 +46,9 @@ pnpm install
 pnpm dev
 ```
 
-## Step 1 Scope
-This commit includes the initial monorepo structure and project setup only.
-Implementation modules (auth, food APIs, tracking, frontend screens, mobile flows) will be added in subsequent steps.
+## Current Scope
+This repository includes the initial monorepo structure, API auth endpoints, food APIs, Prisma schema, and seed data.
+Frontend and mobile experiences are still scaffolds.
 
 
 ## Vercel Deployment (Web)
@@ -89,6 +89,8 @@ Step 2 backend deliverables now include:
 Step 3 backend deliverables now include:
 - Auth endpoints: `POST /auth/login` and `POST /auth/verify-otp`
 - Global DTO validation pipe in API bootstrap
+- Redis-backed OTP storage, persisted users on verification, and JWTs keyed by user id
+- For local OTP testing only, set `OTP_DEBUG_RESPONSE=true` to include `devOtp` in the login response.
 
 Step 4 backend deliverables now include:
 - Food endpoints: `GET /foods`, `GET /foods?search=`, and `GET /foods/:id`
